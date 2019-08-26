@@ -1,0 +1,140 @@
+﻿<Window x:Class="Perfiles_vegetacion_test_1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Perfiles_vegetacion_test_1"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Select CSV file" Grid.Column="0" Grid.Row="0" Margin="5" Padding="5" Click="Button_Click_CSV" />
+            <Label Content="No file selected" Grid.Column="1" Grid.Row="0" Margin="5" x:Name="Label_file"  />
+            <Button Content="Export" Grid.Column="2" Grid.Row="0" Margin="5" Padding="5" Click="Button_Click_Export" />
+        </Grid>
+        <TabControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" Margin="0" Padding="0" x:Name="tabcontrol">
+            <TabItem Header="Transversal">
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <xctk:IntegerUpDown Grid.Column="0" Grid.Row="0" FormatString="N0" Value="{Binding Value, ElementName=slider_H_perfil}" Increment="{Binding Value, ElementName=TickFrecuency_perfil}" Maximum="{Binding Maximum, ElementName=slider_H_perfil}" AllowTextInput="True" AllowSpin="True" Minimum="{Binding Minimum, ElementName=slider_H_perfil}"/>
+                    <Slider x:Name="slider_H_perfil" Grid.Column="0" Grid.Row="1" Maximum="10000" Minimum="500" SmallChange="1" Orientation="Vertical" TickPlacement="BottomRight" Value="1000" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Center" TickFrequency="{Binding Value, ElementName=TickFrecuency_perfil}" LargeChange="{Binding Value, ElementName=TickFrecuency_perfil}" ValueChanged="slider_H_perfil_ValueChanged"/>
+
+                    <xctk:IntegerUpDown x:Name="TickFrecuency_perfil" Grid.Column="0" Grid.Row="2" FormatString="N0" Increment="100" Minimum="1" Value="500"  AllowTextInput="True" AllowSpin="True" />
+
+                    <xctk:IntegerUpDown Grid.Column="3" Grid.Row="2" FormatString="N0" Value="{Binding Value, ElementName=slider_W_perfil}" Increment="{Binding Value, ElementName=TickFrecuency_perfil}" Maximum="{Binding Maximum, ElementName=slider_W_perfil}" AllowTextInput="True" AllowSpin="True" Minimum="{Binding Minimum, ElementName=slider_W_perfil}"/>
+                    <Slider x:Name="slider_W_perfil" Grid.Column="1" Grid.Row="2" Maximum="20000" Minimum="500" SmallChange="1" Orientation="Horizontal" TickPlacement="TopLeft" Value="10000" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" TickFrequency="{Binding Value, ElementName=TickFrecuency_perfil}" LargeChange="{Binding Value, ElementName=TickFrecuency_perfil}" ValueChanged="slider_W_perfil_ValueChanged" />
+
+
+                    <Canvas Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0" x:Name="Canvas_perfil" Loaded="Canvas_perfil_Loaded" Background="AliceBlue" SizeChanged="Canvas_perfil_SizeChanged" RenderTransformOrigin="0.5,0.5" ClipToBounds="True">
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                                <SkewTransform AngleY="0" AngleX="0"/>
+                                <RotateTransform Angle="0"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                        <local:CustomTickBar_H  Height="20" Minimum="0" Maximum="{Binding Value, ElementName=slider_W_perfil}" TickFrequency="{Binding Value, ElementName=TickFrecuency_perfil}" Width ="{Binding ActualWidth,  ElementName=Canvas_perfil, Mode=OneWay}"  UseLayoutRounding="False" Canvas.Top="0" RenderTransformOrigin="0.5,0.5">
+                            <local:CustomTickBar_H.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                                    <SkewTransform AngleY="0" AngleX="0"/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </local:CustomTickBar_H.RenderTransform>
+                        </local:CustomTickBar_H>
+                        <local:CustomTickBar_V  Width="20"  Minimum="0" Maximum="{Binding Value, ElementName=slider_H_perfil}" TickFrequency="{Binding Value, ElementName=TickFrecuency_perfil}" Height="{Binding ActualHeight, ElementName=Canvas_perfil, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" Canvas.Bottom="0">
+                            <local:CustomTickBar_V.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                                    <SkewTransform AngleY="0" AngleX="0"/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </local:CustomTickBar_V.RenderTransform>
+                        </local:CustomTickBar_V>
+                    </Canvas>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Aerea">
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <xctk:IntegerUpDown Grid.Column="0" Grid.Row="0" FormatString="N0" Value="{Binding Value, ElementName=slider_H_aerea}" Increment="{Binding Value, ElementName=TickFrecuency_aerea}" Maximum="{Binding Maximum, ElementName=slider_H_aerea}" AllowTextInput="True" AllowSpin="True" Minimum="{Binding Minimum, ElementName=slider_H_aerea}"/>
+                    <Slider x:Name="slider_H_aerea" Grid.Column="0" Grid.Row="1" Maximum="10000" Minimum="500" SmallChange="1" Orientation="Vertical" TickPlacement="BottomRight" Value="1000" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Center" TickFrequency="{Binding Value, ElementName=TickFrecuency_aerea}" LargeChange="{Binding Value, ElementName=TickFrecuency_aerea}" ValueChanged="slider_H_aerea_ValueChanged"/>
+
+                    <xctk:IntegerUpDown x:Name="TickFrecuency_aerea" Grid.Column="0" Grid.Row="2" FormatString="N0" Increment="100" Minimum="1" Value="500"  AllowTextInput="True" AllowSpin="True" />
+
+                    <xctk:IntegerUpDown Grid.Column="3" Grid.Row="2" FormatString="N0" Value="{Binding Value, ElementName=slider_W_aerea}" Increment="{Binding Value, ElementName=TickFrecuency_aerea}" Maximum="{Binding Maximum, ElementName=slider_W_aerea}" AllowTextInput="True" AllowSpin="True" Minimum="{Binding Minimum, ElementName=slider_W_aerea}"/>
+                    <Slider x:Name="slider_W_aerea" Grid.Column="1" Grid.Row="2" Maximum="20000" Minimum="500" SmallChange="1" Orientation="Horizontal" TickPlacement="TopLeft" Value="10000" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" TickFrequency="{Binding Value, ElementName=TickFrecuency_aerea}" LargeChange="{Binding Value, ElementName=TickFrecuency_aerea}" ValueChanged="slider_W_aerea_ValueChanged"/>
+
+                    <Canvas Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0" x:Name="Canvas_aerea" Loaded="Canvas_aerea_Loaded" Background="AliceBlue" SizeChanged="Canvas_aerea_SizeChanged" RenderTransformOrigin="0.5,0.5" ClipToBounds="True">
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                                <SkewTransform AngleY="0" AngleX="0"/>
+                                <RotateTransform Angle="0"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                        <local:CustomTickBar_H  Height="20" Minimum="0" Maximum="{Binding Value, ElementName=slider_W_aerea}" TickFrequency="{Binding Value, ElementName=TickFrecuency_aerea}" Placement="Left" Width ="{Binding ActualWidth,  ElementName=Canvas_aerea, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"  Canvas.Top="0">
+                            <local:CustomTickBar_H.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                                    <SkewTransform AngleY="0" AngleX="0"/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </local:CustomTickBar_H.RenderTransform>
+                        </local:CustomTickBar_H>
+                        <local:CustomTickBar_V  Width="20"  Minimum="0" Maximum="{Binding Value, ElementName=slider_H_aerea}" TickFrequency="{Binding Value, ElementName=TickFrecuency_aerea}" Placement="Left" Height="{Binding ActualHeight, ElementName=Canvas_aerea, Mode=OneWay}" RenderTransformOrigin="0.5,0.5">
+                            <local:CustomTickBar_V.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                                    <SkewTransform AngleY="0" AngleX="0"/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </local:CustomTickBar_V.RenderTransform>
+                        </local:CustomTickBar_V>
+                    </Canvas>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <DataGrid x:Name="Datagrid_table" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" AutoGenerateColumns="False" IsEnabled="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" IsReadOnly="True" Loaded="Datagrid_table_Loaded"/>
+
+    </Grid>
+</Window>
